@@ -15,6 +15,10 @@ class _HomeScreenState extends State<HomeScreen>
 
   int _currentBottomIndex = 0;
 
+  // Carousel variables
+  late PageController _carouselController;
+  int _currentCarouselIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -31,11 +35,31 @@ class _HomeScreenState extends State<HomeScreen>
     );
 
     _animationController.forward();
+
+    // Initialize carousel
+    _carouselController = PageController();
+    _startCarouselTimer();
+  }
+
+  void _startCarouselTimer() {
+    Future.doWhile(() async {
+      await Future.delayed(const Duration(seconds: 4));
+      if (!mounted) return false;
+
+      final nextPage = (_currentCarouselIndex + 1) % 3;
+      _carouselController.animateToPage(
+        nextPage,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+      return true;
+    });
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _carouselController.dispose();
     super.dispose();
   }
 
@@ -58,11 +82,9 @@ class _HomeScreenState extends State<HomeScreen>
                     const SizedBox(height: 20),
                     _buildWeeklyCalendar(),
                     const SizedBox(height: 24),
-                    _buildNextActivityCard(),
+                    _buildCarouselCards(),
                     const SizedBox(height: 24),
                     _buildHealthMetricsGrid(),
-                    const SizedBox(height: 24),
-                    _buildHealthScore(),
                     const SizedBox(height: 24),
                     _buildWaterIntake(),
                     const SizedBox(height: 24),
@@ -237,6 +259,439 @@ class _HomeScreenState extends State<HomeScreen>
           ],
         );
       }),
+    );
+  }
+
+  Widget _buildCarouselCards() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 175,
+          child: PageView(
+            controller: _carouselController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentCarouselIndex = index;
+              });
+            },
+            children: [
+              _buildNextActivityCard(),
+              _buildFeelingCard(),
+              _buildHealthScoreCard(),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        // Dots indicator
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(3, (index) {
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              width: _currentCarouselIndex == index ? 20 : 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: _currentCarouselIndex == index
+                    ? const Color(0xFFFF8C42)
+                    : const Color(0xFFFF8C42).withOpacity(0.3),
+                borderRadius: BorderRadius.circular(4),
+              ),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeelingCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF5F9E7),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'How are you feeling?',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1A1A2E),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Your last check-in was 4 hours ago, let us know your mood.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black.withOpacity(0.6),
+                    height: 1.4,
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF4A6741),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: const Text(
+                    'Record Mood',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          SizedBox(
+            width: 90,
+            height: 90,
+            child: _buildMoodMeterIllustration(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMoodMeterIllustration() {
+    return Stack(
+      children: [
+        // Meter arc background
+        Positioned(
+          top: 10,
+          left: 5,
+          child: SizedBox(
+            width: 80,
+            height: 50,
+            child: CustomPaint(
+              painter: MoodMeterPainter(),
+            ),
+          ),
+        ),
+        // Smiley face in center
+        Positioned(
+          top: 25,
+          left: 30,
+          child: Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFD93D),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                // Left eye
+                Positioned(
+                  top: 10,
+                  left: 8,
+                  child: Container(
+                    width: 4,
+                    height: 4,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF5D4037),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                // Right eye
+                Positioned(
+                  top: 10,
+                  right: 8,
+                  child: Container(
+                    width: 4,
+                    height: 4,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF5D4037),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                // Smile
+                Positioned(
+                  bottom: 8,
+                  left: 8,
+                  child: Container(
+                    width: 14,
+                    height: 7,
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color(0xFF5D4037),
+                          width: 2,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        // Needle pointing to happy
+        Positioned(
+          top: 20,
+          left: 42,
+          child: Transform.rotate(
+            angle: 0.8,
+            child: Container(
+              width: 2,
+              height: 25,
+              decoration: BoxDecoration(
+                color: const Color(0xFF1A1A2E),
+                borderRadius: BorderRadius.circular(1),
+              ),
+            ),
+          ),
+        ),
+        // Base platform
+        Positioned(
+          bottom: 10,
+          left: 15,
+          child: Container(
+            width: 60,
+            height: 12,
+            decoration: BoxDecoration(
+              color: const Color(0xFF4FC3F7),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(5, (index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: index < 4 ? const Color(0xFFFFB300) : Colors.white.withOpacity(0.5),
+                    shape: BoxShape.circle,
+                  ),
+                );
+              }),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHealthScoreCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE0F7FA),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Health Score',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1A1A2E),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'You have completed 4 out of 5 daily vitals. Great progress!',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black.withOpacity(0.6),
+                    height: 1.4,
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF00796B),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: const Text(
+                    'View Score',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          SizedBox(
+            width: 90,
+            height: 90,
+            child: _buildHealthScoreIllustration(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHealthScoreIllustration() {
+    return Stack(
+      children: [
+        // Background circle with gradient effect
+        Positioned(
+          top: 5,
+          left: 5,
+          child: Container(
+            width: 70,
+            height: 70,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFFFF8C42).withOpacity(0.2),
+                  const Color(0xFFFFB74D).withOpacity(0.1),
+                ],
+              ),
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+        // Progress ring
+        Positioned(
+          top: 10,
+          left: 10,
+          child: SizedBox(
+            width: 60,
+            height: 60,
+            child: CircularProgressIndicator(
+              value: 0.78,
+              strokeWidth: 6,
+              backgroundColor: const Color(0xFFFF8C42).withOpacity(0.2),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                Color(0xFFFF8C42),
+              ),
+            ),
+          ),
+        ),
+        // Center heart with pulse
+        Positioned(
+          top: 22,
+          left: 22,
+          child: Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFFF8C42).withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.favorite,
+              size: 20,
+              color: Color(0xFFFF8C42),
+            ),
+          ),
+        ),
+        // Sparkle effects
+        Positioned(
+          top: 5,
+          right: 10,
+          child: Container(
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              color: Color(0xFFFFD700),
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 8,
+          left: 8,
+          child: Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(
+              color: const Color(0xFF4CAF50).withOpacity(0.7),
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+        Positioned(
+          top: 15,
+          left: 2,
+          child: Container(
+            width: 5,
+            height: 5,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFF8C42).withOpacity(0.5),
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+        // Check mark badge
+        Positioned(
+          bottom: 5,
+          right: 5,
+          child: Container(
+            width: 18,
+            height: 18,
+            decoration: BoxDecoration(
+              color: const Color(0xFF4CAF50),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF4CAF50).withOpacity(0.4),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.check,
+              size: 12,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -683,105 +1138,6 @@ class _HomeScreenState extends State<HomeScreen>
               fontWeight: FontWeight.w400,
               color: Colors.black.withOpacity(0.5),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHealthScore() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Health Score',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black.withOpacity(0.6),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Good Progress Today',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF1A1A2E),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'You have completed 4 out of 5 daily vitals',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black.withOpacity(0.5),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1A1A2E),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'View Details',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 20),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 80,
-                height: 80,
-                child: CircularProgressIndicator(
-                  value: 0.78,
-                  strokeWidth: 8,
-                  backgroundColor: const Color(0xFFFF8C42).withOpacity(0.2),
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    Color(0xFFFF8C42),
-                  ),
-                ),
-              ),
-              const Text(
-                '78%',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1A1A2E),
-                ),
-              ),
-            ],
           ),
         ],
       ),
@@ -1374,4 +1730,40 @@ class _HomeScreenState extends State<HomeScreen>
       },
     );
   }
+}
+
+// Custom Painter for Mood Meter Arc
+class MoodMeterPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 8
+      ..strokeCap = StrokeCap.round;
+
+    final rect = Rect.fromLTWH(0, 0, size.width, size.height * 2);
+
+    // Red section (sad)
+    paint.color = const Color(0xFFEF5350);
+    canvas.drawArc(rect, 3.14, 0.6, false, paint);
+
+    // Orange section
+    paint.color = const Color(0xFFFF9800);
+    canvas.drawArc(rect, 3.74, 0.6, false, paint);
+
+    // Yellow section
+    paint.color = const Color(0xFFFFEB3B);
+    canvas.drawArc(rect, 4.34, 0.6, false, paint);
+
+    // Light green section
+    paint.color = const Color(0xFF8BC34A);
+    canvas.drawArc(rect, 4.94, 0.6, false, paint);
+
+    // Green section (happy)
+    paint.color = const Color(0xFF4CAF50);
+    canvas.drawArc(rect, 5.54, 0.6, false, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
