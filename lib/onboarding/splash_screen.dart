@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:care_nest/onboarding/onboarding_screen_1.dart';
+import 'package:care_nest/auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -46,13 +45,13 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // Navigate to onboarding after 5 seconds
-    Future.delayed(const Duration(seconds: 5), () {
+    // Navigate to login after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const OnboardingScreen1(),
+            builder: (context) => const LoginScreen(),
           ),
         );
       }
@@ -91,10 +90,13 @@ class _SplashScreenState extends State<SplashScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // Logo
-                      SvgPicture.asset(
-                        'assets/images/logo.svg',
-                        width: 120,
-                        height: 120,
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/images/app_icon.png',
+                          width: 120,
+                          height: 120,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       // CareNest Text
