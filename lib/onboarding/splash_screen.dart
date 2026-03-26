@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:care_nest/auth/login_screen.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -45,17 +46,83 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // Navigate to login after 3 seconds
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
-        );
-      }
+    // Check internet connectivity after splash animation
+    Future.delayed(const Duration(seconds: 2), () {
+      _checkConnectivityAndNavigate();
     });
+  }
+
+  Future<void> _checkConnectivityAndNavigate() async {
+    if (!mounted) return;
+
+    final connectivityResult = await Connectivity().checkConnectivity();
+
+    if (!mounted) return;
+
+    // Check if there's no internet connection
+    if (connectivityResult.contains(ConnectivityResult.none) ||
+        connectivityResult.isEmpty) {
+      // Show no internet error dialog
+      _showNoInternetDialog();
+    } else {
+      // Internet is available, navigate to login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+      );
+    }
+  }
+
+  void _showNoInternetDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: const Row(
+            children: [
+              Icon(
+                Icons.wifi_off_rounded,
+                color: Color(0xFFFF9B8A),
+                size: 28,
+              ),
+              SizedBox(width: 12),
+              Text(
+                'No Internet',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+          content: const Text(
+            'No internet connection available. Please check your internet connection and try again.',
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _checkConnectivityAndNavigate();
+              },
+              child: const Text(
+                'Retry',
+                style: TextStyle(
+                  color: Color(0xFFFF9B8A),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
