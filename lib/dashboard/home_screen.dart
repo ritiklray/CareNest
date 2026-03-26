@@ -43,37 +43,71 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
-      body: SafeArea(
-        child: FadeTransition(
-          opacity: _fadeIn,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 10),
-                _buildHeader(),
-                const SizedBox(height: 20),
-                _buildWeeklyCalendar(),
-                const SizedBox(height: 24),
-                _buildNextActivityCard(),
-                const SizedBox(height: 24),
-                _buildHealthMetricsGrid(),
-                const SizedBox(height: 24),
-                _buildHealthScore(),
-                const SizedBox(height: 24),
-                _buildWaterIntake(),
-                const SizedBox(height: 24),
-                _buildDailyRoutine(),
-                const SizedBox(height: 20),
-                _buildCareNestPlusCard(),
-                const SizedBox(height: 20),
-                _buildFamilyChallenge(),
-                const SizedBox(height: 100),
-              ],
+      body: Stack(
+        children: [
+          SafeArea(
+            child: FadeTransition(
+              opacity: _fadeIn,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    _buildHeader(),
+                    const SizedBox(height: 20),
+                    _buildWeeklyCalendar(),
+                    const SizedBox(height: 24),
+                    _buildNextActivityCard(),
+                    const SizedBox(height: 24),
+                    _buildHealthMetricsGrid(),
+                    const SizedBox(height: 24),
+                    _buildHealthScore(),
+                    const SizedBox(height: 24),
+                    _buildWaterIntake(),
+                    const SizedBox(height: 24),
+                    _buildDailyRoutine(),
+                    const SizedBox(height: 20),
+                    _buildCareNestPlusCard(),
+                    const SizedBox(height: 20),
+                    _buildFamilyChallenge(),
+                    const SizedBox(height: 100),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+          // Floating Voice Button
+          Positioned(
+            bottom: 90, // Navigation bar ke upar
+            right: 20,
+            child: GestureDetector(
+              onTap: () {
+                _showVoicePopup(context);
+              },
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFF8C42),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFFF8C42).withOpacity(0.4),
+                      blurRadius: 15,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.mic,
+                  size: 28,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: _buildBottomNavigation(),
     );
@@ -739,30 +773,13 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  const Text(
-                    '78%',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF1A1A2E),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 4),
-                    padding: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFF8C42),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.mic,
-                      size: 12,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+              const Text(
+                '78%',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF1A1A2E),
+                ),
               ),
             ],
           ),
@@ -1222,6 +1239,138 @@ class _HomeScreenState extends State<HomeScreen>
           );
         }),
       ),
+    );
+  }
+
+  void _showVoicePopup(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            width: 280,
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Voice Animation Circle
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFF8C42).withOpacity(0.1),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: const Color(0xFFFF8C42),
+                      width: 2,
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.mic,
+                    size: 32,
+                    color: Color(0xFFFF8C42),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Voice Recording Text
+                const Text(
+                  'Voice Assistant',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1A1A2E),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Tap to speak your health concern\nor ask any question',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // Action Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Text(
+                            'Cancel',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF1A1A2E),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          // Add voice recording functionality here
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Voice recording started...'),
+                              backgroundColor: Color(0xFFFF8C42),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFF8C42),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Text(
+                            'Start Recording',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
