@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../dashboard/home_screen.dart';
 
 class CircleVerifiedScreen extends StatefulWidget {
   const CircleVerifiedScreen({super.key});
@@ -198,7 +199,22 @@ class _CircleVerifiedScreenState extends State<CircleVerifiedScreen>
                       // Go to Home Button
                       GestureDetector(
                         onTap: () {
-                          // TODO: Navigate to main home screen
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) =>
+                                  const HomeScreen(),
+                              transitionsBuilder:
+                                  (context, animation, secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              transitionDuration: const Duration(milliseconds: 300),
+                            ),
+                            (route) => false,
+                          );
                         },
                         child: Container(
                           width: double.infinity,
