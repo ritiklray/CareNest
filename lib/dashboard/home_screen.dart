@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'mood_popup.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -115,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen>
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFFF8C42).withOpacity(0.4),
+                      color: const Color(0xFFFF8C42).withValues(alpha: 0.4),
                       blurRadius: 15,
                       offset: const Offset(0, 5),
                     ),
@@ -186,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen>
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
               ),
             ),
           ],
@@ -199,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen>
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -234,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen>
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 8),
@@ -266,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen>
     return Column(
       children: [
         SizedBox(
-          height: 175,
+          height: 195,
           child: PageView(
             controller: _carouselController,
             onPageChanged: (index) {
@@ -293,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen>
               decoration: BoxDecoration(
                 color: _currentCarouselIndex == index
                     ? const Color(0xFFFF8C42)
-                    : const Color(0xFFFF8C42).withOpacity(0.3),
+                    : const Color(0xFFFF8C42).withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(4),
               ),
             );
@@ -305,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildFeelingCard() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: const Color(0xFFF5F9E7),
         borderRadius: BorderRadius.circular(16),
@@ -315,6 +316,7 @@ class _HomeScreenState extends State<HomeScreen>
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   'How are you feeling?',
@@ -330,15 +332,15 @@ class _HomeScreenState extends State<HomeScreen>
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: Colors.black.withOpacity(0.6),
-                    height: 1.4,
+                    color: Colors.black.withValues(alpha: 0.6),
+                    height: 1.3,
                   ),
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
+                    horizontal: 18,
+                    vertical: 9,
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF4A6741),
@@ -394,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -488,7 +490,7 @@ class _HomeScreenState extends State<HomeScreen>
                   width: 6,
                   height: 6,
                   decoration: BoxDecoration(
-                    color: index < 4 ? const Color(0xFFFFB300) : Colors.white.withOpacity(0.5),
+                    color: index < 4 ? const Color(0xFFFFB300) : Colors.white.withValues(alpha: 0.5),
                     shape: BoxShape.circle,
                   ),
                 );
@@ -502,7 +504,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildHealthScoreCard() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: const Color(0xFFE0F7FA),
         borderRadius: BorderRadius.circular(16),
@@ -512,6 +514,7 @@ class _HomeScreenState extends State<HomeScreen>
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   'Health Score',
@@ -527,15 +530,15 @@ class _HomeScreenState extends State<HomeScreen>
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: 0.6),
                     height: 1.4,
                   ),
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
+                    horizontal: 18,
+                    vertical: 9,
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF00796B),
@@ -579,8 +582,8 @@ class _HomeScreenState extends State<HomeScreen>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFFFF8C42).withOpacity(0.2),
-                  const Color(0xFFFFB74D).withOpacity(0.1),
+                  const Color(0xFFFF8C42).withValues(alpha: 0.2),
+                  const Color(0xFFFFB74D).withValues(alpha: 0.1),
                 ],
               ),
               shape: BoxShape.circle,
@@ -597,7 +600,7 @@ class _HomeScreenState extends State<HomeScreen>
             child: CircularProgressIndicator(
               value: 0.78,
               strokeWidth: 6,
-              backgroundColor: const Color(0xFFFF8C42).withOpacity(0.2),
+              backgroundColor: const Color(0xFFFF8C42).withValues(alpha: 0.2),
               valueColor: const AlwaysStoppedAnimation<Color>(
                 Color(0xFFFF8C42),
               ),
@@ -616,7 +619,7 @@ class _HomeScreenState extends State<HomeScreen>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFFF8C42).withOpacity(0.3),
+                  color: const Color(0xFFFF8C42).withValues(alpha: 0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -649,7 +652,7 @@ class _HomeScreenState extends State<HomeScreen>
             width: 6,
             height: 6,
             decoration: BoxDecoration(
-              color: const Color(0xFF4CAF50).withOpacity(0.7),
+              color: const Color(0xFF4CAF50).withValues(alpha: 0.7),
               shape: BoxShape.circle,
             ),
           ),
@@ -661,7 +664,7 @@ class _HomeScreenState extends State<HomeScreen>
             width: 5,
             height: 5,
             decoration: BoxDecoration(
-              color: const Color(0xFFFF8C42).withOpacity(0.5),
+              color: const Color(0xFFFF8C42).withValues(alpha: 0.5),
               shape: BoxShape.circle,
             ),
           ),
@@ -678,7 +681,7 @@ class _HomeScreenState extends State<HomeScreen>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF4CAF50).withOpacity(0.4),
+                  color: const Color(0xFF4CAF50).withValues(alpha: 0.4),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -697,7 +700,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildNextActivityCard() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: const Color(0xFFFFE8DE),
         borderRadius: BorderRadius.circular(16),
@@ -707,6 +710,7 @@ class _HomeScreenState extends State<HomeScreen>
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   'Your Next Activity',
@@ -722,15 +726,15 @@ class _HomeScreenState extends State<HomeScreen>
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
-                    color: Colors.black.withOpacity(0.6),
-                    height: 1.5,
+                    color: Colors.black.withValues(alpha: 0.6),
+                    height: 1.4,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                    horizontal: 14,
+                    vertical: 7,
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF8B4513),
@@ -770,7 +774,7 @@ class _HomeScreenState extends State<HomeScreen>
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-              color: const Color(0xFFFFD4B4).withOpacity(0.3),
+              color: const Color(0xFFFFD4B4).withValues(alpha: 0.3),
               shape: BoxShape.circle,
             ),
           ),
@@ -784,11 +788,11 @@ class _HomeScreenState extends State<HomeScreen>
             width: 50,
             height: 35,
             decoration: BoxDecoration(
-              color: const Color(0xFF8B4513).withOpacity(0.8),
+              color: const Color(0xFF8B4513).withValues(alpha: 0.8),
               borderRadius: BorderRadius.circular(6),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -838,7 +842,7 @@ class _HomeScreenState extends State<HomeScreen>
               borderRadius: BorderRadius.circular(2),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 2,
                   offset: const Offset(0, 1),
                 ),
@@ -873,7 +877,7 @@ class _HomeScreenState extends State<HomeScreen>
               borderRadius: BorderRadius.circular(2),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 2,
                   offset: const Offset(0, 1),
                 ),
@@ -908,7 +912,7 @@ class _HomeScreenState extends State<HomeScreen>
               borderRadius: BorderRadius.circular(2),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 2,
                   offset: const Offset(0, 1),
                 ),
@@ -940,11 +944,11 @@ class _HomeScreenState extends State<HomeScreen>
             width: 16,
             height: 16,
             decoration: BoxDecoration(
-              color: const Color(0xFFFF8C42).withOpacity(0.9),
+              color: const Color(0xFFFF8C42).withValues(alpha: 0.9),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 3,
                   offset: const Offset(0, 1),
                 ),
@@ -1092,7 +1096,7 @@ class _HomeScreenState extends State<HomeScreen>
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -1104,7 +1108,7 @@ class _HomeScreenState extends State<HomeScreen>
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.1),
+              color: iconColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -1119,7 +1123,7 @@ class _HomeScreenState extends State<HomeScreen>
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: Colors.black.withOpacity(0.6),
+              color: Colors.black.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 4),
@@ -1136,7 +1140,7 @@ class _HomeScreenState extends State<HomeScreen>
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w400,
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
             ),
           ),
         ],
@@ -1164,7 +1168,7 @@ class _HomeScreenState extends State<HomeScreen>
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
               ),
             ),
           ],
@@ -1175,7 +1179,7 @@ class _HomeScreenState extends State<HomeScreen>
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.black.withOpacity(0.6),
+            color: Colors.black.withValues(alpha: 0.6),
           ),
         ),
         const SizedBox(height: 16),
@@ -1189,7 +1193,7 @@ class _HomeScreenState extends State<HomeScreen>
               decoration: BoxDecoration(
                 color: isFilled
                     ? const Color(0xFF4ECDC4)
-                    : const Color(0xFF4ECDC4).withOpacity(0.2),
+                    : const Color(0xFF4ECDC4).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(
                   color: const Color(0xFF4ECDC4),
@@ -1281,7 +1285,7 @@ class _HomeScreenState extends State<HomeScreen>
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -1314,7 +1318,7 @@ class _HomeScreenState extends State<HomeScreen>
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: routine['color'].withOpacity(0.1),
+              color: routine['color'].withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -1342,7 +1346,7 @@ class _HomeScreenState extends State<HomeScreen>
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withValues(alpha: 0.5),
                   ),
                 ),
               ],
@@ -1351,7 +1355,7 @@ class _HomeScreenState extends State<HomeScreen>
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Row(
@@ -1360,7 +1364,7 @@ class _HomeScreenState extends State<HomeScreen>
                 Icon(
                   Icons.access_time,
                   size: 12,
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withValues(alpha: 0.5),
                 ),
                 const SizedBox(width: 4),
                 Text(
@@ -1368,7 +1372,7 @@ class _HomeScreenState extends State<HomeScreen>
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withValues(alpha: 0.5),
                   ),
                 ),
               ],
@@ -1480,7 +1484,7 @@ class _HomeScreenState extends State<HomeScreen>
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.black.withOpacity(0.6),
+              color: Colors.black.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 8),
@@ -1540,7 +1544,7 @@ class _HomeScreenState extends State<HomeScreen>
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),
@@ -1552,9 +1556,18 @@ class _HomeScreenState extends State<HomeScreen>
           return Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  _currentBottomIndex = index;
-                });
+                if (index == 1) {
+                  // Mood button - show mood popup
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (context) => const MoodPopup(),
+                  );
+                } else {
+                  setState(() {
+                    _currentBottomIndex = index;
+                  });
+                }
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -1574,7 +1587,7 @@ class _HomeScreenState extends State<HomeScreen>
                         size: 24,
                         color: isSelected
                             ? Colors.white
-                            : Colors.black.withOpacity(0.5),
+                            : Colors.black.withValues(alpha: 0.5),
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -1585,7 +1598,7 @@ class _HomeScreenState extends State<HomeScreen>
                         fontWeight: FontWeight.w500,
                         color: isSelected
                             ? const Color(0xFF1A1A2E)
-                            : Colors.black.withOpacity(0.5),
+                            : Colors.black.withValues(alpha: 0.5),
                       ),
                     ),
                   ],
@@ -1613,7 +1626,7 @@ class _HomeScreenState extends State<HomeScreen>
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withValues(alpha: 0.15),
                   blurRadius: 30,
                   offset: const Offset(0, 15),
                 ),
@@ -1628,7 +1641,7 @@ class _HomeScreenState extends State<HomeScreen>
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFF8C42).withOpacity(0.1),
+                    color: const Color(0xFFFF8C42).withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: const Color(0xFFFF8C42),
@@ -1660,7 +1673,7 @@ class _HomeScreenState extends State<HomeScreen>
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: 0.6),
                     height: 1.5,
                   ),
                 ),
@@ -1689,7 +1702,7 @@ class _HomeScreenState extends State<HomeScreen>
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFFF8C42).withOpacity(0.4),
+                          color: const Color(0xFFFF8C42).withValues(alpha: 0.4),
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -1719,7 +1732,7 @@ class _HomeScreenState extends State<HomeScreen>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black.withOpacity(0.5),
+                      color: Colors.black.withValues(alpha: 0.5),
                     ),
                   ),
                 ),
