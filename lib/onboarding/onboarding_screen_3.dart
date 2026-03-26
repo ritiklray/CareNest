@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'welcome_screen.dart';
 
 class OnboardingScreen3 extends StatefulWidget {
   const OnboardingScreen3({super.key});
@@ -707,7 +708,30 @@ class _OnboardingScreen3State extends State<OnboardingScreen3>
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: GestureDetector(
         onTap: () {
-          // TODO: Navigate to main app / login
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const WelcomeScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0.0, 0.1),
+                      end: Offset.zero,
+                    ).animate(CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOutCubic,
+                    )),
+                    child: child,
+                  ),
+                );
+              },
+              transitionDuration: const Duration(milliseconds: 500),
+            ),
+          );
         },
         child: Container(
           width: double.infinity,
@@ -725,7 +749,7 @@ class _OnboardingScreen3State extends State<OnboardingScreen3>
           ),
           child: const Center(
             child: Text(
-              'Get Started',
+              'Next',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
