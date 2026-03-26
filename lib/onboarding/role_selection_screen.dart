@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../caregiver_setup/setup_flow_screen_1.dart';
 
 class RoleSelectionScreen extends StatefulWidget {
   const RoleSelectionScreen({super.key});
@@ -202,7 +203,27 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen>
                       child: GestureDetector(
                         onTap: _selectedRole != null
                             ? () {
-                                // TODO: Navigate to next screen based on role
+                                if (_selectedRole == 'caregiver') {
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          const SetupFlowScreen1(),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        );
+                                      },
+                                      transitionDuration:
+                                          const Duration(milliseconds: 300),
+                                    ),
+                                  );
+                                } else {
+                                  // TODO: Navigate to elder flow
+                                }
                               }
                             : null,
                         child: AnimatedContainer(
