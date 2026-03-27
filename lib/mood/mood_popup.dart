@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'analytics_screen.dart';
 
 class MoodPopup extends StatefulWidget {
   const MoodPopup({super.key});
@@ -124,7 +125,13 @@ class _MoodPopupState extends State<MoodPopup> with SingleTickerProviderStateMix
                           ),
                         ),
                         IconButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => const AnalyticsScreen(),
+                              ),
+                            );
+                          },
                           icon: const Icon(Icons.close, color: Color(0xFF1A1A2E)),
                         ),
                       ],
