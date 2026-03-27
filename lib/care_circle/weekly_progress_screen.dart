@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'challenge_screen.dart';
+import 'family_leaderboard_screen.dart';
 
 class WeeklyProgressScreen extends StatefulWidget {
   const WeeklyProgressScreen({super.key});
@@ -356,12 +357,23 @@ class _WeeklyProgressScreenState extends State<WeeklyProgressScreen> {
                     color: Color(0xFF1A1A2E),
                   ),
                 ),
-                Text(
-                  'View Leaderboard',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFFFFA500),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const FamilyLeaderboardScreen(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'View Leaderboard',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFFFFA500),
+                    ),
                   ),
                 ),
               ],

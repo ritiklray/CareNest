@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'health_score_screen.dart';
 
 class RoutineScreen extends StatefulWidget {
   const RoutineScreen({super.key});
@@ -338,7 +339,14 @@ class _RoutineScreenState extends State<RoutineScreen> {
                       ),
                       elevation: 0,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HealthScoreScreen(),
+                        ),
+                      );
+                    },
                     child: const Text(
                       'View Weekly Progress',
                       style: TextStyle(

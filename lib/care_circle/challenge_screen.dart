@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'challenge_completion_screen.dart';
 
 class ChallengeScreen extends StatefulWidget {
   const ChallengeScreen({super.key});
@@ -60,102 +61,158 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
             // Challenge Illustration
             Container(
               width: double.infinity,
-              height: 180,
+              height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    const Color(0xFFFFF9E6),
+                    const Color(0xFFFFE0B2),
+                  ],
+                ),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Stack(
-                  children: [
-                    // Background gradient
-                    Container(
+              child: Stack(
+                children: [
+                  // Sun
+                  Positioned(
+                    top: 20,
+                    left: 60,
+                    child: Container(
+                      width: 50,
+                      height: 50,
                       decoration: BoxDecoration(
+                        color: const Color(0xFFFF9800),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFF9800).withValues(alpha: 0.3),
+                            blurRadius: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Tree
+                  Positioned(
+                    top: 40,
+                    left: 20,
+                    child: SizedBox(
+                      width: 50,
+                      height: 70,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: 0,
+                            left: 18,
+                            child: Container(
+                              width: 14,
+                              height: 30,
+                              color: const Color(0xFF6D4C41),
+                            ),
+                          ),
+                          Positioned(
+                            top: 5,
+                            left: 8,
+                            child: Container(
+                              width: 34,
+                              height: 34,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF558B2F),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Runners Group
+                  Positioned(
+                    bottom: 40,
+                    left: 50,
+                    child: SizedBox(
+                      width: 120,
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildSimpleRunner(const Color(0xFFFF6B6B)),
+                          _buildSimpleRunner(const Color(0xFFFF8C42)),
+                          _buildSimpleRunner(const Color(0xFFFFA500)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Ground layer 1
+                  Positioned(
+                    bottom: 25,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 15,
+                      decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            const Color(0xFFFFE0B2).withValues(alpha: 0.5),
-                            const Color(0xFFFFB74D).withValues(alpha: 0.3),
+                            Color(0xFF9CCC65),
+                            Color(0xFF7CB342),
                           ],
                         ),
                       ),
                     ),
-                    // Sun
-                    Positioned(
-                      top: 10,
-                      left: 40,
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFFF8C00),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0xFFFF8C00),
-                              blurRadius: 15,
-                            ),
+                  ),
+                  // Ground layer 2
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 25,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xFF558B2F),
+                            Color(0xFF33691E),
                           ],
                         ),
                       ),
                     ),
-                    // Tree
-                    Positioned(
-                      top: 20,
-                      left: 20,
-                      child: _buildTreeIllustration(),
-                    ),
-                    // Runners
-                    Positioned(
-                      bottom: 30,
-                      left: 40,
-                      child: _buildRunnerGroupIllustration(),
-                    ),
-                    // Ground
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              const Color(0xFF558B2F).withValues(alpha: 0.4),
-                              const Color(0xFF558B2F).withValues(alpha: 0.6),
-                            ],
+                  ),
+                  // Family event label
+                  Positioned(
+                    bottom: 35,
+                    left: 20,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 7,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 8,
                           ),
+                        ],
+                      ),
+                      child: const Text(
+                        'Family event',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1A1A2E),
                         ),
                       ),
                     ),
-                    // Family event label
-                    Positioned(
-                      bottom: 10,
-                      left: 20,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.9),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: const Text(
-                          'Family event',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF1A1A2E),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 20),
@@ -423,12 +480,11 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('✅ Challenge joined successfully!'),
-                      backgroundColor: Color(0xFF4CAF50),
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ChallengeCompletionScreen(),
                     ),
                   );
                 },
@@ -539,186 +595,44 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
     );
   }
 
-  Widget _buildTreeIllustration() {
-    return SizedBox(
-      width: 35,
-      height: 60,
-      child: Stack(
-        children: [
-          // Tree trunk
-          Positioned(
-            bottom: 0,
-            left: 12,
-            child: Container(
-              width: 8,
-              height: 20,
-              color: const Color(0xFF5D4037),
+  Widget _buildSimpleRunner(Color shirtColor) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        // Head
+        Container(
+          width: 10,
+          height: 10,
+          decoration: const BoxDecoration(
+            color: Color(0xFFE8B88D),
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(height: 2),
+        // Body
+        Container(
+          width: 6,
+          height: 12,
+          color: shirtColor,
+        ),
+        const SizedBox(height: 1),
+        // Legs
+        Row(
+          children: [
+            Container(
+              width: 2,
+              height: 10,
+              color: const Color(0xFFE8B88D),
             ),
-          ),
-          // Tree foliage
-          Positioned(
-            top: 0,
-            left: 2,
-            child: Container(
-              width: 30,
-              height: 30,
-              decoration: const BoxDecoration(
-                color: Color(0xFF558B2F),
-                shape: BoxShape.circle,
-              ),
+            const SizedBox(width: 2),
+            Container(
+              width: 2,
+              height: 10,
+              color: const Color(0xFFE8B88D),
             ),
-          ),
-          Positioned(
-            top: 12,
-            left: 0,
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: const BoxDecoration(
-                color: Color(0xFF6BAA3D),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 12,
-            right: 0,
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: const BoxDecoration(
-                color: Color(0xFF6BAA3D),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRunnerGroupIllustration() {
-    return SizedBox(
-      width: 120,
-      height: 50,
-      child: Stack(
-        children: [
-          // Runner 1
-          Positioned(
-            left: 0,
-            bottom: 0,
-            child: _buildSingleRunner(const Color(0xFFFF6B6B)),
-          ),
-          // Runner 2
-          Positioned(
-            left: 35,
-            bottom: 2,
-            child: _buildSingleRunner(const Color(0xFFFF8C42)),
-          ),
-          // Runner 3
-          Positioned(
-            left: 70,
-            bottom: 0,
-            child: _buildSingleRunner(const Color(0xFFFFA500)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSingleRunner(Color shirtColor) {
-    return SizedBox(
-      width: 35,
-      height: 50,
-      child: Stack(
-        children: [
-          // Head
-          Positioned(
-            top: 0,
-            left: 10,
-            child: Container(
-              width: 12,
-              height: 12,
-              decoration: const BoxDecoration(
-                color: Color(0xFFD4A574),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          // Body (shirt)
-          Positioned(
-            top: 12,
-            left: 12,
-            child: Container(
-              width: 8,
-              height: 12,
-              color: shirtColor,
-            ),
-          ),
-          // Shorts
-          Positioned(
-            top: 24,
-            left: 12,
-            child: Container(
-              width: 8,
-              height: 6,
-              color: Colors.black.withValues(alpha: 0.5),
-            ),
-          ),
-          // Left leg (running pose)
-          Positioned(
-            top: 28,
-            left: 10,
-            child: Transform.rotate(
-              angle: 0.3,
-              child: Container(
-                width: 2,
-                height: 12,
-                color: const Color(0xFFD4A574),
-              ),
-            ),
-          ),
-          // Right leg (running pose)
-          Positioned(
-            top: 28,
-            right: 10,
-            child: Transform.rotate(
-              angle: -0.3,
-              child: Container(
-                width: 2,
-                height: 12,
-                color: const Color(0xFFD4A574),
-              ),
-            ),
-          ),
-          // Left arm
-          Positioned(
-            top: 14,
-            left: 8,
-            child: Transform.rotate(
-              angle: -0.4,
-              child: Container(
-                width: 2,
-                height: 10,
-                color: const Color(0xFFD4A574),
-              ),
-            ),
-          ),
-          // Right arm
-          Positioned(
-            top: 14,
-            right: 8,
-            child: Transform.rotate(
-              angle: 0.4,
-              child: Container(
-                width: 2,
-                height: 10,
-                color: const Color(0xFFD4A574),
-              ),
-            ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }
