@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../routine/routine_screen.dart';
 
 class AnalyticsScreen extends StatefulWidget {
   const AnalyticsScreen({super.key});
@@ -362,7 +363,14 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   Navigator.pop(context);
                 }),
                 _buildBottomNavItem(Icons.sentiment_satisfied, 'Mood', true, () {}),
-                _buildBottomNavItem(Icons.calendar_today, 'Routine', false, () {}),
+                _buildBottomNavItem(Icons.calendar_today, 'Routine', false, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RoutineScreen(),
+                    ),
+                  );
+                }),
                 _buildBottomNavItem(Icons.group, 'Care Circle', false, () {}),
                 _buildBottomNavItem(Icons.emergency, 'SOS', false, () {}),
               ],

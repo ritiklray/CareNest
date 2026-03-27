@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../mood/mood_popup.dart';
+import '../routine/routine_screen.dart';
+import '../care_circle/memory_popup.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -1562,6 +1564,28 @@ class _HomeScreenState extends State<HomeScreen>
                     context: context,
                     barrierDismissible: true,
                     builder: (context) => const MoodPopup(),
+                  );
+                } else if (index == 2) {
+                  // Routine button - navigate to routine screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RoutineScreen(),
+                    ),
+                  );
+                } else if (index == 3) {
+                  // Care Circle button - show memory popup
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (context) => const MemoryPopup(
+                      imageUrl: 'https://via.placeholder.com/500x300',
+                      senderName: 'Neha',
+                      senderImageUrl: 'https://via.placeholder.com/150',
+                      memoryTitle: 'Summer Vacation 2010',
+                      memorySubtitle: 'Beautiful memories',
+                      memoryDescription: 'Hi Mom, this was our vacation in 2010.\nSuch a beautiful day!',
+                    ),
                   );
                 } else {
                   setState(() {
