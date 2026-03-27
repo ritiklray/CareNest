@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../care_circle/weekly_progress_screen.dart';
+import 'weekly_progress_screen.dart';
 
 class HealthScoreScreen extends StatefulWidget {
   const HealthScoreScreen({super.key});

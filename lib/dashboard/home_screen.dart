@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import '../mood/mood_popup.dart';
 import '../routine/routine_screen.dart';
 import '../care_circle/memory_popup.dart';
+import '../care_circle/challenge_screen.dart';
+import '../sos/safety_centre_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -1262,12 +1264,22 @@ class _HomeScreenState extends State<HomeScreen>
                 color: Color(0xFF1A1A2E),
               ),
             ),
-            Text(
-              'See All',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xFFFF8C42),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RoutineScreen(),
+                  ),
+                );
+              },
+              child: Text(
+                'See All',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFFFF8C42),
+                ),
               ),
             ),
           ],
@@ -1508,20 +1520,30 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: const Center(
-              child: Text(
-                'Join Challenge',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF1A1A2E),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChallengeScreen(),
+                ),
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Center(
+                child: Text(
+                  'Join Challenge',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1A1A2E),
+                  ),
                 ),
               ),
             ),
@@ -1585,6 +1607,14 @@ class _HomeScreenState extends State<HomeScreen>
                       memoryTitle: 'Summer Vacation 2010',
                       memorySubtitle: 'Beautiful memories',
                       memoryDescription: 'Hi Mom, this was our vacation in 2010.\nSuch a beautiful day!',
+                    ),
+                  );
+                } else if (index == 4) {
+                  // SOS button - navigate to safety centre screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SafetyCentreScreen(),
                     ),
                   );
                 } else {
