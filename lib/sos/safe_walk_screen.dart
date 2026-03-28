@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'fall_detection_bottom_sheet.dart';
 
 class SafeWalkScreen extends StatefulWidget {
   const SafeWalkScreen({super.key});
@@ -116,17 +117,53 @@ class _SafeWalkScreenState extends State<SafeWalkScreen> {
       ),
       body: Stack(
         children: [
-          // Real Map
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(19.0828, 72.8717),
-              zoom: 14.4,
+          // Temporary Dummy Map UI
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE5E3DF), // Standard map background color
             ),
-            markers: markers,
-            polylines: polylines,
-            zoomControlsEnabled: false,
-            mapToolbarEnabled: false,
+            child: Stack(
+              children: [
+                // Grid pattern
+                CustomPaint(
+                  size: Size.infinite,
+                  painter: GridPainter(),
+                ),
+                // Center text
+                Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.map_outlined,
+                        size: 64,
+                        color: Color(0xFF9E9E9E),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Map Interface',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '(Add Google Maps API Key to enable)',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           Positioned(
             top: 16,
@@ -354,42 +391,11 @@ class _SafeWalkScreenState extends State<SafeWalkScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          showDialog(
+                          showModalBottomSheet(
                             context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('End Safe Walk?'),
-                              content: const Text(
-                                'Your care circle will be notified that you\'ve reached your destination safely.',
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('Cancel'),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: const Text(
-                                          '✅ Safe Walk ended. You reached safely!',
-                                        ),
-                                        backgroundColor: const Color(0xFF4CAF50),
-                                        behavior: SnackBarBehavior.floating,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF1A1A2E),
-                                  ),
-                                  child: const Text('End Walk'),
-                                ),
-                              ],
-                            ),
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => const FallDetectionBottomSheet(),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -487,4 +493,23 @@ class _SafeWalkScreenState extends State<SafeWalkScreen> {
       ),
     );
   }
+}
+
+class GridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.05)
+      ..strokeWidth = 1;
+
+    for (var i = 0.0; i < size.width; i += 40) {
+      canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
+    }
+    for (var i = 0.0; i < size.height; i += 40) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
